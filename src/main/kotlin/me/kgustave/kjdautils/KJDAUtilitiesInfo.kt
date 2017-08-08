@@ -13,14 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:Suppress("unused")
 package me.kgustave.kjdautils
 
-/**
- * @author Kaidan Gustave
- */
+/**KJDAUtilities Version Number Major*/
 val versionMajor = "0"
-val versionMinor = "1"
+/**KJDAUtilities Version Number Minor*/
+val versionMinor = "2"
+/**KJDAUtilities Version Number*/
+val fullVersion = "$versionMajor.$versionMinor"
+/**KJDAUtilities GitHub URL*/
 val github = "https://github.com/TheMonitorLizard/KJDA-Utilities"
 val authorName = "The Monitor Lizard"
 val realAuthor = "Kaidan Gustave"
-fun getFullVersion() = "$versionMajor.$versionMinor"
+
+/**
+ * Information regarding [KJDAUtilities](https://github.com/TheMonitorLizard/KJDA-Utilities).
+ *
+ * @author   Kaidan Gustave
+ */
+class KJDAUtilitiesInfo private constructor()
+{
+    companion object
+    {
+        @JvmField val VERSION_MAJOR : String = versionMajor
+        @JvmField val VERSION_MINOR : String = versionMinor
+        @JvmField val FULL_VERSION  : String = fullVersion
+        @JvmField val GITHUB        : String = github
+        @JvmField val AUTHOR_NAME   : String = authorName
+        @JvmField val REAL_AUTHOR   : String = realAuthor
+    }
+}

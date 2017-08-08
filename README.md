@@ -51,14 +51,13 @@ override fun execute(event : CommandEvent)
 ## Adding KJDA-Utilities
 
 In order to use Kotlin-JDA-Utilities, you'll need to provide your own versions of the
-following:
+following and that they be the latest versions available:
 
-- [Kotlin Stdlib](https://github.com/JetBrains/kotlin) (with JRE 1.8 and 1.7 additions)
-- [JDA](https://github.com/Dv8FromTheWorld/JDA)
-- [JDA-Utilities](https://github.com/JDA-Applications/JDA-Utilities)
-- [Kotlin-JDA](https://github.com/JDA-Applications/Kotlin-JDA)
+- [JDA (3.2.0_242)](https://github.com/Dv8FromTheWorld/JDA)
+- [JDA-Utilities (1.4)](https://github.com/JDA-Applications/JDA-Utilities)
+- [Kotlin-JDA (56a6c22)](https://github.com/JDA-Applications/Kotlin-JDA)
 
-The latest builds here always update to the newest version of the aforementioned three,
+New releases here always update to the newest version of the aforementioned three,
 and as such are the least likely to have bugs or errors when using them.
 
 It is strongly recommended you use a dependency manager such as gradle or maven (snippets
@@ -67,8 +66,7 @@ updating much more difficult.
 
 **NOTE: Kotlin setup is up to you!**
 
-It's highly recommended you use the newest build stable stdlib build (as of
-August 6th, 2017 this is 1.1.3-2).
+It's highly recommended you use the newest build stable stdlib build.
 
 If you are unsure on how to install kotlin, or add kotlin using either maven or gradle
 the following pages can help you:
@@ -81,7 +79,6 @@ the following pages can help you:
 ```groovy
 repositories {
     jcenter()
-    mavenCentral()
     maven { url 'https://jitpack.io' }
 }
 

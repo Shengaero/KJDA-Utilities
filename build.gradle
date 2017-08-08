@@ -46,8 +46,8 @@ plugins {
 apply plugin: 'kotlin'
 apply plugin: 'org.jetbrains.dokka'
 
-def versionObj = new Version(major: 0, minor: 1)
-def jda_version = '3.2.0_241'
+def versionObj = new Version(major: 0, minor: 2)
+def jda_version = '3.2.0_242'
 def jda_utilities_version = '1.4'
 def kotlin_jda_version = '25c1fee'
 
@@ -68,13 +68,13 @@ sourceSets {
 }
 
 repositories {
-    mavenCentral()
     jcenter()
     maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     compileOnly 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.14'
 
     compileOnly "net.dv8tion:JDA:$jda_version"

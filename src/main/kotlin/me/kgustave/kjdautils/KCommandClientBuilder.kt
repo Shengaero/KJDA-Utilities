@@ -93,12 +93,17 @@ infix inline fun<reified T: CommandClientBuilder> T.executor(lazy: () -> Schedul
 infix inline fun <reified T: CommandClientBuilder> T.command(lazy: () -> Command) : T
         = this.addCommand(lazy()) as T
 /**A lazy setter adaptation of [CommandClientBuilder.addCommands].*/
-infix inline fun <reified T: CommandClientBuilder> T.commands(lazy: () -> Array<Command>) : T
+infix inline fun <reified T: CommandClientBuilder> T.commands(lazy: () -> Array<com.jagrosh.jdautilities.commandclient.Command>) : T
         = this.addCommands(*lazy()) as T
 /**A lazy setter adaptation of [CommandClientBuilder.setEmojis].*/
 infix inline fun <reified T: CommandClientBuilder> T.emojis(lazy: Emojis.() -> Unit) : T
-        = with(Emojis()) { lazy(this); setEmojis(this.success, this.error, this.warning) as T }
+        = with(Emojis()) { lazy(); setEmojis(this.success, this.error, this.warning) as T }
 
+/**
+ * An organized collection of three Strings that will
+ * be used as the [CommandClient][CommandClient]'s
+ * success, warning, and error emoji's.
+ */
 class Emojis
 {
     var success : String? = null

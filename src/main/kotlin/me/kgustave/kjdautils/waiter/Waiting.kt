@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.kgustave.kjdautils.menu
+package me.kgustave.kjdautils.waiter
 
-import java.util.concurrent.TimeUnit
+import com.jagrosh.jdautilities.waiter.EventWaiter
+import net.dv8tion.jda.core.JDA
+import net.dv8tion.jda.core.JDABuilder
 
-/**
- * @author Kaidan Gustave
- */
-class TimeOut(val delay: Long, val unit: TimeUnit)
-{
-    constructor(delay: Long) : this(delay, TimeUnit.SECONDS)
-}
+/**A lazy setter that adds an [EventWaiter] to a [JDABuilder].*/
+infix inline fun <reified T : JDABuilder> T.waiter(lazy: () -> EventWaiter) : T = this.addEventListener(lazy()) as T
+
+/**A lazy setter that adds an [EventWaiter] to [JDA].*/
+infix inline fun <reified T : JDA> T.waiter(lazy: () -> EventWaiter) : T = this.addEventListener(lazy()) as T
+
+

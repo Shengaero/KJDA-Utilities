@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 @file:Suppress("unused")
-package me.kgustave.kjdautils.extensions
+package me.kgustave.kjdautils.utils
 
 import com.jagrosh.jdautilities.utils.FinderUtil
 import net.dv8tion.jda.core.JDA

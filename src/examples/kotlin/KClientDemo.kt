@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-import club.minnced.kjda.listener
+import commands.*
 import club.minnced.kjda.token
 import com.jagrosh.jdautilities.commandclient.examples.PingCommand
+import com.jagrosh.jdautilities.waiter.EventWaiter
 import me.kgustave.kjdautils.*
+import me.kgustave.kjdautils.waiter.waiter
 import net.dv8tion.jda.core.AccountType
 import net.dv8tion.jda.core.JDABuilder
 
@@ -28,21 +30,33 @@ class KClientDemo
 {
     fun initialize()
     {
-        // Thanks to the nifty 'commandClient' extension function, you can
-        // instantiate, build, and add your CommandClient straight into
-        // JDABuilder without breaking a chain!
-        JDABuilder(AccountType.BOT)
-                .token { "<Example_Token>" }
-                .commandClient {
-                    prefix  { "!?" }
-                    ownerId { 123456789123L }
-                    command { PingCommand() }
-                    emojis  {
-                        success { ":)" }
-                        warning { ":|" }
-                        error   { ":(" }
-                    }
-                }.buildAsync()
+        with(JDABuilder(AccountType.BOT))
+        {
+            val waiter = EventWaiter()
+            token { "<Example_Token>" }
+            // Thanks to the nifty 'commandClient' extension function, you can
+            // instantiate, build, and add your CommandClient straight into
+            // JDABuilder without breaking a chain!
+            commandClient {
+                prefix   { "!?" }
+                ownerId  { 123456789123L }
+                command  { PingCommand() }
+                commands {
+                    waiter { waiter }
+                    arrayOf(
+                            JavaExampleCommand(),
+                            KotlinAnnotationsExample(),
+                            KotlinPaginatorExample(waiter)
+                    )
+                }
+                emojis   {
+                    success { ":)" }
+                    warning { ":|" }
+                    error   { ":(" }
+                }
+            }
+            buildAsync()
+        }
     }
 }
 

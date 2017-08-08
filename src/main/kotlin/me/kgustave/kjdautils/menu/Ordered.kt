@@ -17,145 +17,20 @@
 package me.kgustave.kjdautils.menu
 
 import com.jagrosh.jdautilities.menu.orderedmenu.OrderedMenuBuilder
-import com.jagrosh.jdautilities.waiter.EventWaiter
-import net.dv8tion.jda.core.entities.Message
-import net.dv8tion.jda.core.entities.MessageChannel
-import net.dv8tion.jda.core.entities.Role
-import net.dv8tion.jda.core.entities.User
-import java.awt.Color
-import java.util.concurrent.TimeUnit
 
 /**
- * @author Kaidan Gustave
+ * Represents a choice for an [OrderedMenu][com.jagrosh.jdautilities.menu.orderedmenu.OrderedMenu].
+ *
+ * OrderedChoices have two parts:
+ * - The [name] of the choice, which will be displayed in the Menu.
+ * - The [action] that will be preformed when the this choice is selected.
+ *
+ * These can be added to an OrderedMenu builder using [OrderedMenuBuilder#choices][choices],
+ * but must all be added at the same time, and without using [OrderedMenuBuilder.setChoices],
+ * [OrderedMenuBuilder.addChoices], or [OrderedMenuBuilder.setAction].
+ *
  */
-class KOrderedMenuBuilder internal constructor(val orderedMenuBuilder: OrderedMenuBuilder)
-{
-    var description : String? = null
-    var color : Int? = null
-    var cancel : (() -> Unit)? = null
-    var choices : MutableList<OrderedChoice> = ArrayList()
-    var users : Array<User> = emptyArray()
-    var text : String? = null
-    var timeout : TimeOut? = null
-    var useCancelButton : Boolean = false
-    var useLetters : Boolean = false
-    var useNumbers : Boolean = true
-    var roles : Array<Role> = emptyArray()
-    var allowTextInput : Boolean = false
-
-    operator fun component1()  = description
-    operator fun component2()  = color
-    operator fun component3()  = cancel
-    operator fun component4()  = choices
-    operator fun component5()  = users
-    operator fun component6()  = text
-    operator fun component7()  = timeout
-    operator fun component8()  = useCancelButton
-    operator fun component9()  = useLetters
-    operator fun component10() = useNumbers
-    operator fun component11() = roles
-    operator fun component12() = allowTextInput
-
-    internal fun build() = with(orderedMenuBuilder)
-    {
-        val (description, color, cancel, choices, users, text, timeout, useCancelButton, useLetters, useNumbers,
-                roles, allowTextInput) = this@KOrderedMenuBuilder
-
-        if(description != null)  setDescription(description)
-        if(color != null)        setColor(Color(color))
-        if(cancel != null)       setCancel{cancel.invoke()}
-        if(text != null)         setText(text)
-        if(choices.isNotEmpty()) addChoices(*choices.map{it.name}.toTypedArray()).setAction{choices[it-1].get().invoke()}
-        if(timeout != null)      setTimeout(timeout.delay, timeout.unit)
-                                 useCancelButton(useCancelButton)
-        if(useLetters)           useLetters()
-        if(useNumbers)           useNumbers()
-        if(users.isNotEmpty())   setUsers(*users)
-        if(roles.isNotEmpty())   setRoles(*roles)
-                                 allowTextInput(allowTextInput)
-        return@with this
-    }
-
-    infix inline fun description(lazy: () -> String?) : KOrderedMenuBuilder
-    {
-        this.description = lazy()
-        return this
-    }
-
-    infix inline fun colorAwt(lazy: () -> Color?) : KOrderedMenuBuilder
-    {
-        this.color = lazy()?.rgb
-        return this
-    }
-
-    infix inline fun color(lazy: () -> Int?) : KOrderedMenuBuilder
-    {
-        this.color = lazy()
-        return this
-    }
-
-    infix inline fun choice(lazy: OrderedChoice.() -> OrderedChoice) : KOrderedMenuBuilder
-    {
-        this.choices.add(lazy(OrderedChoice()))
-        return this
-    }
-
-    infix inline fun users(lazy: () -> Array<out User>) : KOrderedMenuBuilder
-    {
-        this.users = arrayOf(*lazy())
-        return this
-    }
-
-    infix inline fun text(lazy: () -> String?) : KOrderedMenuBuilder
-    {
-        this.text = lazy()
-        return this
-    }
-
-    inline fun timeout(unit: TimeUnit, lazy: () -> Long) : KOrderedMenuBuilder
-    {
-        this.timeout = TimeOut(lazy(), unit)
-        return this
-    }
-
-    infix inline fun timeout(lazy: () -> Long) : KOrderedMenuBuilder
-    {
-        this.timeout = TimeOut(lazy())
-        return this
-    }
-
-    infix inline fun useCancelButton(lazy: () -> Boolean) : KOrderedMenuBuilder
-    {
-        this.useCancelButton = lazy()
-        return this
-    }
-
-    infix inline fun useLetters(lazy: () -> Boolean) : KOrderedMenuBuilder
-    {
-        this.useLetters = lazy()
-        return this
-    }
-
-    infix inline fun useNumbers(lazy: () -> Boolean) : KOrderedMenuBuilder
-    {
-        this.useNumbers = lazy()
-        return this
-    }
-
-    infix inline fun roles(lazy: () -> Array<out Role>) : KOrderedMenuBuilder
-    {
-        this.roles = arrayOf(*lazy())
-        return this
-    }
-
-    infix inline fun allowTextInput(lazy: () -> Boolean) : KOrderedMenuBuilder
-    {
-        this.allowTextInput = lazy()
-        return this
-    }
-}
-
-class OrderedChoice
+class OrderedChoice internal constructor()
 {
     var name : String = "null"
     var action : (() -> Unit) = {}
@@ -175,41 +50,34 @@ class OrderedChoice
     }
 }
 
-fun orderedMenu(waiter: EventWaiter, channel: MessageChannel, init: KOrderedMenuBuilder.() -> Unit) =
-        with(KOrderedMenuBuilder(OrderedMenuBuilder().setEventWaiter(waiter)))
+/**
+ * Creates and builds an [ArrayList] of [OrderedChoices][OrderedChoice].
+ *
+ * **NOTE:** This does not work correctly or at all if you use
+ * [OrderedMenuBuilder.setChoices], [OrderedMenuBuilder.addChoices],
+ * or [OrderedMenuBuilder.setAction].
+ */
+infix inline fun OrderedMenuBuilder.choices(lazy: ArrayList<OrderedChoice>.() -> Unit) = with(this)
 {
-    init()
-    build().build().display(channel)
+    val choices = with(ArrayList<OrderedChoice>()) { this.lazy(); this }
+    setChoices(*choices.map { it.name }.toTypedArray()).setAction { choices[it-1].action() }
+    return@with this
 }
 
-fun orderedMenu(waiter: EventWaiter, message: Message, init: KOrderedMenuBuilder.() -> Unit) =
-        with(KOrderedMenuBuilder(OrderedMenuBuilder().setEventWaiter(waiter)))
-{
-    init()
-    build().build().display(message)
-}
+/**A lazy setter for [OrderedMenuBuilder.setDescription].*/
+infix inline fun OrderedMenuBuilder.description(lazy: () -> String?) = setDescription(lazy())!!
 
-fun orderedMenu(waiter: EventWaiter, init: KOrderedMenuBuilder.() -> Unit) =
-        with(KOrderedMenuBuilder(OrderedMenuBuilder().setEventWaiter(waiter)))
-{
-    init()
-    build()
-}
+/**A lazy setter for [OrderedMenuBuilder.setText].*/
+infix inline fun OrderedMenuBuilder.text(lazy: () -> String?) = setText(lazy())!!
 
-fun OrderedMenuBuilder.modify(init: KOrderedMenuBuilder.() -> Unit) = with(KOrderedMenuBuilder(this))
-{
-    init()
-    build()
-}
+/**A lazy setter for [OrderedMenuBuilder.useCancelButton].*/
+infix inline fun OrderedMenuBuilder.useCancelButton(lazy: () -> Boolean) = useCancelButton(lazy())!!
 
-fun OrderedMenuBuilder.display(channel: MessageChannel, init: KOrderedMenuBuilder.() -> Unit) = with(KOrderedMenuBuilder(this))
-{
-    init()
-    build().build().display(channel)
-}
+/**A lazy setter for [OrderedMenuBuilder.useLetters].*/
+infix inline fun OrderedMenuBuilder.useLetters(lazy: () -> Boolean) =  if(lazy()) useLetters()!! else this
 
-fun OrderedMenuBuilder.display(message: Message, init: KOrderedMenuBuilder.() -> Unit) = with(KOrderedMenuBuilder(this))
-{
-    init()
-    build().build().display(message)
-}
+/**A lazy setter for [OrderedMenuBuilder.useNumbers].*/
+infix inline fun OrderedMenuBuilder.useNumbers(lazy: () -> Boolean) = if(lazy()) useNumbers()!! else this
+
+/**A lazy setter for [OrderedMenuBuilder.allowTextInput].*/
+infix inline fun OrderedMenuBuilder.allowTextInput(lazy: () -> Boolean) = allowTextInput(lazy())!!

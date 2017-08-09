@@ -28,9 +28,8 @@ import com.jagrosh.jdautilities.menu.orderedmenu.OrderedMenuBuilder
  * These can be added to an OrderedMenu builder using [OrderedMenuBuilder#choices][choices],
  * but must all be added at the same time, and without using [OrderedMenuBuilder.setChoices],
  * [OrderedMenuBuilder.addChoices], or [OrderedMenuBuilder.setAction].
- *
  */
-class OrderedChoice internal constructor()
+class OrderedChoice constructor()
 {
     var name : String = "null"
     var action : (() -> Unit) = {}
@@ -81,3 +80,10 @@ infix inline fun OrderedMenuBuilder.useNumbers(lazy: () -> Boolean) = if(lazy())
 
 /**A lazy setter for [OrderedMenuBuilder.allowTextInput].*/
 infix inline fun OrderedMenuBuilder.allowTextInput(lazy: () -> Boolean) = allowTextInput(lazy())!!
+
+infix inline fun <reified T: ArrayList<OrderedChoice>> T.choice(lazy: OrderedChoice.() -> Unit) : T {
+    val choice = OrderedChoice()
+    choice.lazy()
+    add(choice)
+    return this
+}

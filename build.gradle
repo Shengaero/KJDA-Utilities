@@ -74,7 +74,7 @@ repositories {
 
 dependencies {
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compileOnly "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     compileOnly 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.14'
 
     compileOnly "net.dv8tion:JDA:$jda_version"

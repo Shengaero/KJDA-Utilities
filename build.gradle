@@ -48,7 +48,7 @@ apply plugin: 'org.jetbrains.dokka'
 
 def versionObj = new Version(major: 0, minor: 3)
 def jda_version = '3.2.0_242'
-def jda_utilities_version = '1.4'
+def jda_utilities_version = '1.5'
 def kotlin_jda_version = '25c1fee'
 
 group 'me.kgustave'

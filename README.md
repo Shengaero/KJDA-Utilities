@@ -54,8 +54,8 @@ In order to use Kotlin-JDA-Utilities, you'll need to provide your own versions o
 following and that they be the latest versions available:
 
 - [JDA (3.2.0_242)](https://github.com/Dv8FromTheWorld/JDA)
-- [JDA-Utilities (1.4)](https://github.com/JDA-Applications/JDA-Utilities)
-- [Kotlin-JDA (56a6c22)](https://github.com/JDA-Applications/Kotlin-JDA)
+- [JDA-Utilities (1.5)](https://github.com/JDA-Applications/JDA-Utilities)
+- [Kotlin-JDA (25c1fee)](https://github.com/JDA-Applications/Kotlin-JDA)
 
 New releases here always update to the newest version of the aforementioned three,
 and as such are the least likely to have bugs or errors when using them.

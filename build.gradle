@@ -26,7 +26,7 @@ class Version {
 }
 
 buildscript {
-    ext.kotlin_version = '1.1.3-2'
+    ext.kotlin_version = '1.1.4'
 
     repositories.mavenCentral()
 
@@ -46,7 +46,7 @@ plugins {
 apply plugin: 'kotlin'
 apply plugin: 'org.jetbrains.dokka'
 
-def versionObj = new Version(major: 0, minor: 2)
+def versionObj = new Version(major: 0, minor: 3)
 def jda_version = '3.2.0_242'
 def jda_utilities_version = '1.4'
 def kotlin_jda_version = '25c1fee'

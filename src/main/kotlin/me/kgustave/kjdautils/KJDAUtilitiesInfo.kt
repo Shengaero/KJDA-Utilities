@@ -19,7 +19,7 @@ package me.kgustave.kjdautils
 /**KJDAUtilities Version Number Major*/
 val versionMajor = "0"
 /**KJDAUtilities Version Number Minor*/
-val versionMinor = "2"
+val versionMinor = "3"
 /**KJDAUtilities Version Number*/
 val fullVersion = "$versionMajor.$versionMinor"
 /**KJDAUtilities GitHub URL*/

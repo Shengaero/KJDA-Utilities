@@ -46,7 +46,8 @@ class KClientDemo
                     arrayOf(
                             JavaExampleCommand(),
                             KotlinAnnotationsExample(),
-                            KotlinPaginatorExample(waiter)
+                            KotlinPaginatorExample(waiter),
+                            WaiterExample(waiter)
                     )
                 }
                 emojis   {

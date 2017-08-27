@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 @file:Suppress("unused")
+@file:JvmName("SafeIDKt")
 package me.kgustave.kjdautils.utils
 
 import com.jagrosh.jdautilities.utils.SafeIdUtil

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:Suppress("unused")
+@file:Suppress("unused", "MemberVisibilityCanPrivate")
 package me.kgustave.kjdautils.command
 
 import net.dv8tion.jda.core.Permission
@@ -144,4 +144,3 @@ annotation class Help constructor(/**The help snippet for this [KCommand].*/ val
 @KCommandAnnotation(KCommandAnnotationUsage.INSTANTIATION)
 @MustBeDocumented
 annotation class Arguments constructor(/**The arguments snippet for this [KCommand].*/ val arguments: String)
-

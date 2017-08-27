@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 @file:Suppress("unused")
+@file:JvmName("WaitingKt")
 package me.kgustave.kjdautils.waiter
 
 import com.jagrosh.jdautilities.waiter.EventWaiter

@@ -35,17 +35,6 @@ typealias Command = KCommand
  */
 abstract class KCommand : Command()
 {
-    private companion object
-    {
-        @JvmStatic infix inline fun <reified T : Collection<Annotation>> T.filterUnneeded(usage: KCommandAnnotationUsage) =
-                filter {
-                    it.annotationClass.annotations
-                            .filterIsInstance<KCommandAnnotation>()
-                            .filter { it.usage == usage }
-                            .isNotEmpty()
-                }
-    }
-
     /**
      * Whether or not the [KCommand] uses [KCommandAnnotations][KCommandAnnotation].
      *
@@ -58,6 +47,9 @@ abstract class KCommand : Command()
     ///////////////////////
     // PRIVATE FUNCTIONS //
     ///////////////////////
+
+    private infix inline fun <reified T : Collection<Annotation>> T.filterUnneeded(usage: KCommandAnnotationUsage) =
+            filter { it.annotationClass.annotations.filterIsInstance<KCommandAnnotation>().any { it.usage == usage } }
 
     private fun processAnnotations() {
         if(noAnnotations)
@@ -147,18 +139,18 @@ abstract class KCommand : Command()
         cooldownScope = this.scope
     }
     protected infix inline fun KCommand.noAnnotations(lazy: () -> Boolean) { noAnnotations = lazy() }
-}
 
-/**
- * A container for a cooldown's length in seconds and it's [scope][Command.CooldownScope].
- *
- * @author   Kaidan Gustave
- */
-class Cooldown
-{
-    var seconds: Int = 0
-    var scope: Command.CooldownScope = Command.CooldownScope.USER
+    /**
+     * A container for a cooldown's length in seconds and it's [scope][Command.CooldownScope].
+     *
+     * @author   Kaidan Gustave
+     */
+    inner class Cooldown
+    {
+        var seconds: Int = 0
+        var scope: Command.CooldownScope = Command.CooldownScope.USER
 
-    infix inline fun seconds(lazy: () -> Int) { seconds = lazy() }
-    infix inline fun scope(lazy: () -> Command.CooldownScope) { scope = lazy() }
+        infix inline fun seconds(lazy: () -> Int) { seconds = lazy() }
+        infix inline fun scope(lazy: () -> Command.CooldownScope) { scope = lazy() }
+    }
 }

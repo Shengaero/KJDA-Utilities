@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:JvmName("KCommandClientBuilder")
+@file:JvmName("CommandClientBuilderKt")
 @file:Suppress("unused")
 package me.kgustave.kjdautils
 
@@ -43,15 +43,13 @@ import java.util.concurrent.ScheduledExecutorService
  * @author   Kaidan Gustave
  * @since    0.1
  */
-infix inline fun <reified T : JDABuilder> T.commandClient(init: CommandClientBuilder.() -> Unit) : T = with(CommandClientBuilder())
-{
+infix inline fun <reified T : JDABuilder> T.commandClient(init: CommandClientBuilder.() -> Unit) : T = with(CommandClientBuilder()) {
     init()
     addEventListener(build()) as T
 }
 
 /**A lazy setter adaptation of [CommandClientBuilder.setOwnerId].*/
-infix inline fun <reified T: CommandClientBuilder> T.ownerId(lazy: () -> Any) : T = with(lazy())
-{
+infix inline fun <reified T: CommandClientBuilder> T.ownerId(lazy: () -> Any) : T = with(lazy()) {
     if(this is String || this is Long)
         setOwnerId(this.toString()) as T
     else throw IllegalArgumentException("Owner ID must be a Long or String!")
@@ -93,11 +91,13 @@ infix inline fun<reified T: CommandClientBuilder> T.executor(lazy: () -> Schedul
 infix inline fun <reified T: CommandClientBuilder> T.command(lazy: () -> Command) : T
         = this.addCommand(lazy()) as T
 /**A lazy setter adaptation of [CommandClientBuilder.addCommands].*/
-infix inline fun <reified T: CommandClientBuilder> T.commands(lazy: () -> Array<com.jagrosh.jdautilities.commandclient.Command>) : T
+infix inline fun <reified T: CommandClientBuilder> T.commands(lazy: () -> Array<Command>) : T
         = this.addCommands(*lazy()) as T
 /**A lazy setter adaptation of [CommandClientBuilder.setEmojis].*/
-infix inline fun <reified T: CommandClientBuilder> T.emojis(lazy: Emojis.() -> Unit) : T
-        = with(Emojis()) { lazy(); setEmojis(this.success, this.error, this.warning) as T }
+infix inline fun <reified T: CommandClientBuilder> T.emojis(lazy: Emojis.() -> Unit) : T = with(Emojis()) {
+    lazy()
+    setEmojis(this.success, this.error, this.warning) as T
+}
 
 /**
  * An organized collection of three Strings that will
@@ -112,5 +112,5 @@ class Emojis
 
     infix inline fun success(success: () -> String) { this.success = success() }
     infix inline fun warning(warning: () -> String) { this.warning = warning() }
-    infix inline fun error(error:     () -> String) {   this.error = error()   }
+    infix inline fun error(    error: () -> String) {   this.error = error()   }
 }

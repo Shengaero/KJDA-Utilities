@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:Suppress("unused")
+@file:Suppress("unused", "MemberVisibilityCanPrivate", "HasPlatformType")
+@file:JvmName("OrderedKt")
 package me.kgustave.kjdautils.menu
 
 import com.jagrosh.jdautilities.menu.orderedmenu.OrderedMenuBuilder
@@ -29,19 +30,18 @@ import com.jagrosh.jdautilities.menu.orderedmenu.OrderedMenuBuilder
  * but must all be added at the same time, and without using [OrderedMenuBuilder.setChoices],
  * [OrderedMenuBuilder.addChoices], or [OrderedMenuBuilder.setAction].
  */
-class OrderedChoice constructor()
+class OrderedChoice
 {
     var name : String = "null"
     var action : (() -> Unit) = {}
 
-    fun get() : (() -> Unit) = action
-
-    infix fun name(lazy: () -> String) : OrderedChoice
+    infix inline fun name(lazy: () -> String) : OrderedChoice
     {
         this.name = lazy()
         return this
     }
 
+    @Deprecated("Set to be removed in 0.5", ReplaceWith("'action' setter"))
     infix fun action(action : (() -> Unit)) : OrderedChoice
     {
         this.action = action
@@ -56,34 +56,31 @@ class OrderedChoice constructor()
  * [OrderedMenuBuilder.setChoices], [OrderedMenuBuilder.addChoices],
  * or [OrderedMenuBuilder.setAction].
  */
-infix inline fun OrderedMenuBuilder.choices(lazy: ArrayList<OrderedChoice>.() -> Unit) = with(this)
-{
-    val choices = with(ArrayList<OrderedChoice>()) { this.lazy(); this }
-    setChoices(*choices.map { it.name }.toTypedArray()).setAction { choices[it-1].action() }
-    return@with this
+infix inline fun OrderedMenuBuilder.choices(lazy: ArrayList<OrderedChoice>.() -> Unit) = with(ArrayList<OrderedChoice>()) {
+    lazy()
+    return@with setChoices(*this.map { it.name }.toTypedArray()).setAction { this[it-1].action() }
 }
 
 /**A lazy setter for [OrderedMenuBuilder.setDescription].*/
-infix inline fun OrderedMenuBuilder.description(lazy: () -> String?) = setDescription(lazy())!!
+infix inline fun OrderedMenuBuilder.description(lazy: () -> String?) = setDescription(lazy())
 
 /**A lazy setter for [OrderedMenuBuilder.setText].*/
-infix inline fun OrderedMenuBuilder.text(lazy: () -> String?) = setText(lazy())!!
+infix inline fun OrderedMenuBuilder.text(lazy: () -> String?) = setText(lazy())
 
 /**A lazy setter for [OrderedMenuBuilder.useCancelButton].*/
-infix inline fun OrderedMenuBuilder.useCancelButton(lazy: () -> Boolean) = useCancelButton(lazy())!!
+infix inline fun OrderedMenuBuilder.useCancelButton(lazy: () -> Boolean) = useCancelButton(lazy())
 
 /**A lazy setter for [OrderedMenuBuilder.useLetters].*/
-infix inline fun OrderedMenuBuilder.useLetters(lazy: () -> Boolean) =  if(lazy()) useLetters()!! else this
+infix inline fun OrderedMenuBuilder.useLetters(lazy: () -> Boolean) =  if(lazy()) useLetters() else this
 
 /**A lazy setter for [OrderedMenuBuilder.useNumbers].*/
-infix inline fun OrderedMenuBuilder.useNumbers(lazy: () -> Boolean) = if(lazy()) useNumbers()!! else this
+infix inline fun OrderedMenuBuilder.useNumbers(lazy: () -> Boolean) = if(lazy()) useNumbers() else this
 
 /**A lazy setter for [OrderedMenuBuilder.allowTextInput].*/
-infix inline fun OrderedMenuBuilder.allowTextInput(lazy: () -> Boolean) = allowTextInput(lazy())!!
+infix inline fun OrderedMenuBuilder.allowTextInput(lazy: () -> Boolean) = allowTextInput(lazy())
 
-infix inline fun <reified T: ArrayList<OrderedChoice>> T.choice(lazy: OrderedChoice.() -> Unit) : T {
-    val choice = OrderedChoice()
-    choice.lazy()
-    add(choice)
-    return this
+infix inline fun <reified T: ArrayList<OrderedChoice>> T.choice(lazy: OrderedChoice.() -> Unit) : T = with(OrderedChoice()) {
+    lazy()
+    add(this)
+    return@with this@choice
 }

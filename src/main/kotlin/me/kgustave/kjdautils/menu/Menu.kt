@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 @file:Suppress("unused")
+@file:JvmName("MenuKt")
 package me.kgustave.kjdautils.menu
 
 import com.jagrosh.jdautilities.menu.MenuBuilder
@@ -57,10 +58,7 @@ infix inline fun <reified T : MenuBuilder<*,*>> T.waiter(lazy: () -> EventWaiter
 /**A lazy setter for [MenuBuilder.setColor].*/
 infix inline fun <reified T : MenuBuilder<*,*>> T.color(lazy: () -> Color?) : T = this.setColor(lazy()) as T
 /**A lazy setter for [MenuBuilder.setTimeout].*/
-infix inline fun <reified T : MenuBuilder<*,*>> T.timeout(lazy: TimeOut.() -> Unit) : T
-{
-    val timeout = TimeOut()
-    timeout.lazy()
-    this.setTimeout(timeout.delay, timeout.unit)
-    return this
+infix inline fun <reified T : MenuBuilder<*,*>> T.timeout(lazy: TimeOut.() -> Unit) : T = with(TimeOut()) {
+    lazy()
+    return@with setTimeout(this.delay, this.unit) as T
 }

@@ -53,8 +53,8 @@ override fun execute(event : CommandEvent)
 In order to use Kotlin-JDA-Utilities, you'll need to provide your own versions of the
 following and that they be the latest versions available:
 
-- [JDA (3.2.0_242)](https://github.com/Dv8FromTheWorld/JDA)
-- [JDA-Utilities (1.5)](https://github.com/JDA-Applications/JDA-Utilities)
+- [JDA (3.2.0_251)](https://github.com/Dv8FromTheWorld/JDA)
+- [JDA-Utilities (1.6)](https://github.com/JDA-Applications/JDA-Utilities)
 - [Kotlin-JDA (25c1fee)](https://github.com/JDA-Applications/Kotlin-JDA)
 
 New releases here always update to the newest version of the aforementioned three,
@@ -67,6 +67,9 @@ updating much more difficult.
 **NOTE: Kotlin setup is up to you!**
 
 It's highly recommended you use the newest build stable stdlib build.
+
+It's also highly recommended you add the `kotlin-reflect` library to your project,
+as various parts of KJDA-Utilities make use of it.
 
 If you are unsure on how to install kotlin, or add kotlin using either maven or gradle
 the following pages can help you:
@@ -129,3 +132,9 @@ dependencies {
     </dependency>
 </dependencies>
 ```
+
+### Additional Help
+
+Need more help?
+
+Join the [JDA Development Guild](https://discord.gg/0hMr4ce0tIk3pSjp) and contact **The Monitor Lizard#9090**.

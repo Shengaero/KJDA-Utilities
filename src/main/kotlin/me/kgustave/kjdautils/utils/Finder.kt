@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 @file:Suppress("unused")
+@file:JvmName("FinderKt")
 package me.kgustave.kjdautils.utils
 
 import com.jagrosh.jdautilities.utils.FinderUtil
@@ -23,90 +24,103 @@ import net.dv8tion.jda.core.entities.*
 /**
  * Queries the receiving instance of [JDA] for [Users][User] using [FinderUtil].
  *
- * @receiver [JDA]   The instance of JDA to search from.
+ * @receiver The instance of [JDA] to search from.
  * @param    [query] The query to search for Users by.
  *
- * @return A possibly-empty [List][MutableList] of [Users][User] matching the [query].
+ * @return A possibly-empty [List] of [Users][User] matching the [query].
  *
  * @see FinderUtil
  */
-fun JDA.findUsers(query: String) : MutableList<User>                   = FinderUtil.findUsers(query, this)
+infix fun JDA.findUsers(query: String) : List<User>                   = FinderUtil.findUsers(query, this)
 
 /**
  * Queries the receiving instance of [JDA] for [TextChannels][TextChannel] using [FinderUtil].
  *
- * @receiver [JDA]   The instance of JDA to search from.
+ * @receiver The instance of [JDA] to search from.
  * @param    [query] The query to search for TextChannels by.
  *
- * @return A possibly-empty [List][MutableList] of [TextChannels][TextChannel] matching the [query].
+ * @return A possibly-empty [List] of [TextChannels][TextChannel] matching the [query].
  *
  * @see FinderUtil
  */
-fun JDA.findTextChannels(query: String) : MutableList<TextChannel>     = FinderUtil.findTextChannels(query, this)
+infix fun JDA.findTextChannels(query: String) : List<TextChannel>     = FinderUtil.findTextChannels(query, this)
 
 /**
  * Queries the receiving instance of [JDA] for [VoiceChannels][VoiceChannel] using [FinderUtil].
  *
- * @receiver [JDA]   The instance of JDA to search from.
+ * @receiver The instance of [JDA] to search from.
  * @param    [query] The query to search for VoiceChannels by.
  *
- * @return A possibly-empty [List][MutableList] of [VoiceChannels][VoiceChannel] matching the [query].
+ * @return A possibly-empty [List] of [VoiceChannels][VoiceChannel] matching the [query].
  *
  * @see FinderUtil
  */
-fun JDA.findVoiceChannels(query: String) : MutableList<VoiceChannel>   = FinderUtil.findVoiceChannels(query, this)
+infix fun JDA.findVoiceChannels(query: String) : List<VoiceChannel>   = FinderUtil.findVoiceChannels(query, this)
+
+/**
+ * Queries the receiving instance of [JDA] for [Users][User] using [FinderUtil].
+ *
+ * @receiver The [Guild] to search from.
+ * @param    [query] The query to search for Users by.
+ *
+ * @return A possibly-empty [List] of [Users][User] matching the [query].
+ *
+ * @see FinderUtil
+ */
+infix fun Guild.findBannedUsers(query: String) : List<User>?          = FinderUtil.findBannedUsers(query, this)
 
 /**
  * Queries the receiving [Guild] for [Members][Member] using [FinderUtil].
  *
- * @receiver [Guild] The Guild to search from.
+ * @receiver The [Guild] to search from.
  * @param    [query] The query to search for Members by.
  *
- * @return A possibly-empty [List][MutableList] of [Members][Member] matching the [query].
+ * @return A possibly-empty [List] of [Members][Member] matching the [query].
  *
  * @see FinderUtil
  */
-fun Guild.findMembers(query: String) : MutableList<Member>             = FinderUtil.findMembers(query, this)
+infix fun Guild.findMembers(query: String) : List<Member>             = FinderUtil.findMembers(query, this)
 
 /**
  * Queries the receiving [Guild] for [TextChannels][TextChannel] using [FinderUtil].
  *
- * @receiver [Guild] The Guild to search from.
+ * @receiver The [Guild] to search from.
  * @param    [query] The query to search for TextChannels by.
  *
- * @return A possibly-empty [List][MutableList] of [TextChannels][TextChannel] matching the [query].
+ * @return A possibly-empty [List] of [TextChannels][TextChannel] matching the [query].
  *
  * @see FinderUtil
  */
-fun Guild.findTextChannels(query: String) : MutableList<TextChannel>   = FinderUtil.findTextChannels(query, this)
+infix fun Guild.findTextChannels(query: String) : List<TextChannel>   = FinderUtil.findTextChannels(query, this)
 
 /**
  * Queries the receiving [Guild] for [VoiceChannels][VoiceChannel] using [FinderUtil].
  *
- * @receiver [Guild] The Guild to search from.
+ * @receiver The [Guild] to search from.
  * @param    [query] The query to search for VoiceChannels by.
  *
- * @return A possibly-empty [List][MutableList] of [VoiceChannels][VoiceChannel] matching the [query].
+ * @return A possibly-empty [List] of [VoiceChannels][VoiceChannel] matching the [query].
  *
  * @see FinderUtil
  */
-fun Guild.findVoiceChannels(query: String) : MutableList<VoiceChannel> = FinderUtil.findVoiceChannels(query, this)
+infix fun Guild.findVoiceChannels(query: String) : List<VoiceChannel> = FinderUtil.findVoiceChannels(query, this)
 
 /**
  * Queries the instance of [JDA] for [Roles][Role] using [FinderUtil].
  *
- * @receiver [JDA]   The instance of JDA to search from.
+ * @receiver The [Guild] to search from.
  * @param    [query] The query to search for Roles by.
  *
- * @return A possibly-empty [List][MutableList] of [Roles][Role] matching the [query].
+ * @return A possibly-empty [List] of [Roles][Role] matching the [query].
  *
  * @see FinderUtil
  */
-fun Guild.findRoles(query: String) : MutableList<Role>                 = FinderUtil.findRoles(query, this)
+infix fun Guild.findRoles(query: String) : List<Role>                 = FinderUtil.findRoles(query, this)
 
 infix inline fun JDA.findUsers(query: () -> String)           = this.findUsers(query())
 infix inline fun JDA.findTextChannels(query: () -> String)    = this.findTextChannels(query())
 infix inline fun JDA.findVoiceChannels(query: () -> String)   = this.findVoiceChannels(query())
+infix inline fun Guild.findBannedUsers(query: () -> String)   = this.findBannedUsers(query())
 infix inline fun Guild.findMembers(query: () -> String)       = this.findMembers(query())
 infix inline fun Guild.findTextChannels(query: () -> String)  = this.findTextChannels(query())
 infix inline fun Guild.findVoiceChannels(query: () -> String) = this.findVoiceChannels(query())

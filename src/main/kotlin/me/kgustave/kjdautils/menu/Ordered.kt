@@ -41,7 +41,6 @@ class OrderedChoice
         return this
     }
 
-    @Deprecated("Set to be removed in 0.5", ReplaceWith("'action' setter"))
     infix fun action(action : (() -> Unit)) : OrderedChoice
     {
         this.action = action

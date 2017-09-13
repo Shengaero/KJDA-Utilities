@@ -72,6 +72,9 @@ infix inline fun <reified T: CommandClientBuilder> T.carbonKey(lazy: () -> Strin
 /**A lazy setter adaptation of [CommandClientBuilder.setDiscordBotsKey].*/
 infix inline fun <reified T: CommandClientBuilder> T.dBotsKey(lazy: () -> String) : T
         = this.setDiscordBotsKey(lazy()) as T
+/** A lazy setter adaptation of [CommandClientBuilder.setDiscordBotListKey].*/
+infix inline fun <reified T: CommandClientBuilder> T.dBotsListKey(lazy: () -> String) : T
+        = this.setDiscordBotListKey(lazy()) as T
 /**A lazy setter adaptation of [CommandClientBuilder.setListener].*/
 infix inline fun <reified T: CommandClientBuilder> T.listener(lazy: () -> CommandListener) : T
         = this.setListener(lazy()) as T
@@ -93,6 +96,12 @@ infix inline fun <reified T: CommandClientBuilder> T.command(lazy: () -> Command
 /**A lazy setter adaptation of [CommandClientBuilder.addCommands].*/
 infix inline fun <reified T: CommandClientBuilder> T.commands(lazy: () -> Array<Command>) : T
         = this.addCommands(*lazy()) as T
+/**A lazy setter adaptation of [CommandClientBuilder.addAnnotatedModule].*/
+infix inline fun <reified T: CommandClientBuilder> T.module(lazy: () -> Any) : T
+        = this.addAnnotatedModule(lazy()) as T
+/**A lazy setter adaptation of [CommandClientBuilder.addAnnotatedModules].*/
+infix inline fun <reified T: CommandClientBuilder> T.modules(lazy: () -> Array<Any>) : T
+        = this.addAnnotatedModules(*lazy()) as T
 /**A lazy setter adaptation of [CommandClientBuilder.setEmojis].*/
 infix inline fun <reified T: CommandClientBuilder> T.emojis(lazy: Emojis.() -> Unit) : T = with(Emojis()) {
     lazy()

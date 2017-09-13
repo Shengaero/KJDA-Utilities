@@ -21,42 +21,42 @@ import com.jagrosh.jdautilities.waiter.EventWaiter
 import me.kgustave.kjdautils.command.Command
 import me.kgustave.kjdautils.menu.*
 import net.dv8tion.jda.core.entities.ChannelType
+import java.util.concurrent.TimeUnit
 
 /**
  * @author Kaidan Gustave
  */
 class KotlinPaginatorExample(waiter: EventWaiter) : Command()
 {
-    val builder : PaginatorBuilder
-    init
-    {
+    init {
         name { "paginator" }
         help { "gets a demo paginator"}
         cooldown {
             seconds { 20 }
+            scope   { CooldownScope.USER }
         }
-
-        builder = PaginatorBuilder()
-                .timeout { delay { 20 } }
-                .waiter { waiter }
     }
 
-    override fun initiate(event: CommandEvent)
-    {
+    private val builder = PaginatorBuilder() timeout {
+        delay { 20 }
+        unit  { TimeUnit.SECONDS }
+    } waiter { waiter }
+
+    override fun initiate(event: CommandEvent) {
         val guilds = event.jda.guilds
         if(guilds.isEmpty())
             return event.replyError("In no guilds!")
         if(guilds.size==1)
-            event.reply("Only in one guild: ${guilds[0].name}")
+            return event.reply("Only in one guild: ${guilds[0].name}")
+
         builder.clearItems()
 
-        with(builder)
-        {
-            for (guild in event.jda.guilds) add { guild.name }
-
+        with(builder) {
+            for (guild in guilds) add { guild.name }
             text             { t, u -> "Page $t/$u" }
             user             { event.author }
-            color            { -> if(event.isFromType(ChannelType.TEXT)) event.selfMember.color else null }
+            if(event.isFromType(ChannelType.TEXT))
+                color        { event.selfMember.color }
             itemsPerPage     { 8 }
             useNumberedItems { true }
             displayIn        { event.channel }

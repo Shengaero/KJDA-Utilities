@@ -53,8 +53,8 @@ override fun execute(event : CommandEvent)
 In order to use Kotlin-JDA-Utilities, you'll need to provide your own versions of the
 following and that they be the latest versions available:
 
-- [JDA (3.2.0_251)](https://github.com/Dv8FromTheWorld/JDA)
-- [JDA-Utilities (1.6)](https://github.com/JDA-Applications/JDA-Utilities)
+- [JDA (3.2.0_266)](https://github.com/Dv8FromTheWorld/JDA)
+- [JDA-Utilities (1.7)](https://github.com/JDA-Applications/JDA-Utilities)
 - [Kotlin-JDA (25c1fee)](https://github.com/JDA-Applications/Kotlin-JDA)
 
 New releases here always update to the newest version of the aforementioned three,
